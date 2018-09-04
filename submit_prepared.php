@@ -20,9 +20,9 @@ and open the template in the editor.
         
         $sql = "INSERT INTO order_lines 
                 (form_id, mat_num, previous, rx, used, comment)
-               VAULES
-                (?,?,?,?,?,?,?)";
-        $statement = $conn -> prepare($sql);
+               VALUES
+                (?,?,?,?,?,?)";
+        $statement = $conn->prepare($sql);
         $statement -> bind_param("siiiis", $_POST['form_id'], $_POST['mat_num'], $_POST['previous'], $_POST['rx'], $_POST['used'], $_POST['comment']);
         $success = $statement -> execute();
         if ($success) {

@@ -26,119 +26,85 @@ background-color: Lightgrey;
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<link rel="stylesheet" href="faults.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<link rel="stylesheet" href="include.css">
 <script type="text/javascript">
 </script>
 </head>
 <body>
  <!-- topbar -->
-<div class="navbar">
-	<a href="fault_home.html" title="Home" class="w3-blue">
-	<i class="fa fa-home"> Home</i></a>
-	<a href="add_fault_page.php" title="Add a Fault">
-	<i class="fa fa-ambulance"> Add Fault</i></a>
-  <div class="dropdown">
-    <button class="dropbtn">Sites 
-      <i class="fa fa-caret-down"></i>
-    </button>
-    <div class="dropdown-content">
-	<a href="add_site.html" title="Add a Site">
-	<i class="fa fa-plus"> Add Site</i></a>
-	<a href="edit_site_name.php" title="Add a Site">
-	<i class="fa fa-magic"> Edit Site Name</i></a>
-	<a href="edit_site_num.php" title="Add a Site">
-	<i class="fa fa-magic"> Edit Site Number</i></a>
-    </div>
-  </div>
-	<a href="instructions.html" title="Instructions">
-	<i class="fa fa-question-circle"> Instructions</i></a>
-</div><br>
 
 <div class="w3-container"> 
 	<div class="w3-card-4 w3-dark-grey w3-padding">
 	<h2><font color="black">F146</font></h2>
-		<form id="f146_entry" action="add_month.php" method="POST">
+        <form id="f146_entry" action="submit_month.php" method="POST">
 			<br>
-			Site:
-			<select name="site" id="site">
-				<option value="kalgoorlie">Kalgoorlie</option>
+                        Period ending:
+                        <select name="month" id="month">
+				<option value="January">January</option>
+				<option value="February">February</option>
+				<option value="March">March</option>
+				<option value="April">April</option>
+				<option value="May">May</option>
+				<option value="June">June</option>
+				<option value="July">July</option>
+				<option value="August">August</option>
+				<option value="September">September</option>
+				<option value="October">October</option>
+				<option value="November">November</option>
+				<option value="December">December</option>
 			</select>
 			
-			Ascending or Descending:
-			<select name="acdc" id="acdc">
-				<option value="DESC">Descending</option>
-				<option value="ASC">Ascending</option>
-			</select>
-			
+                        
 			<?php
-			require('faultLogin.php');
+			require('f146Login.php');
 			$conn = mysqli_connect($host, $user, $pass, $db);
 			if (!$conn) {
 				die("Connection failed: " . mysqli_connect_error());
 			}
 			$sql = "SELECT site_name FROM sites";
 			$result = mysqli_query($conn, $sql);
-
+                        
+                        echo "Site:";
 			echo "<select id='site_name' name='site_name'>";
 			while ($row = mysqli_fetch_array($result,MYSQLI_ASSOC)) {
 				echo "<option value='" . $row['site_name'] . "'>" . $row['site_name'] . "</option>";
 			}
-			echo "</select>";
-			mysqli_free_result($result);
+			echo "</select><br><br> ";
+                        mysqli_free_result($result);    
+
+			?>                        
+                        
+			<table id="f146_table" class="w3-table">
+			<tr>
+			  <th>Material</th>
+			  <th>Previous month</th>
+			  <th>Received</th>
+			  <th>Consumed</th>
+			  <th>Comment</th>
+			</tr>
+                        
+                        <?php
+                        $sql = "SELECT material.mat_num, material.description FROM site_items INNER JOIN material ON material.mat_num=site_items.mat_num WHERE site_num=12038";
+			$result = mysqli_query($conn, $sql);
+                        $cnt = 0;
+                        while ($row = mysqli_fetch_array($result,MYSQLI_ASSOC)) {
+				$cnt += 1;
+                                echo "<tr>";
+				echo "<td><input type='number' name='mat_num" . $cnt . "' id='mat_num' value='" . $row['mat_num'] . "'>" . $row['description'] . "</td>";
+				echo "<td><input type='number' name='previous" . $cnt . "' id='previous' value=0></td>";
+				echo "<td><input type='number' name='rx" . $cnt . "' id='rx' value=0></td>";
+				echo "<td><input type='number' name='used" . $cnt . "' id='used' value=0></td>";
+				echo "<td><input type='text' name='comment" . $cnt . "' id='comment'></td>";
+				echo "</tr>";
+			}
+                        echo "<input type='hidden' name='rowcount' value=" . $cnt . ">";
+			mysqli_free_result($result);                        
 			mysqli_close($conn);
-			?>		
-						
-			Progress:
-			<select name="priority" id="priority">
-				<option class="w3-red" value="w3-red">New!</option>
-				<option class="w3-orange" value="w3-orange">Planning RTS</option>
-				<option class="w3-light-blue" value="w3-light-blue">Delayed RTS</option>
-				<option class="w3-light-green" value="w3-light-green">Fixed</option>
-			</select>
-						
-			Equipment:
-			<input type="text" name="equipment" id="equipment">
-			<br><br>
-			
-			Status:
-			<select name="status" id="status">
-				<option value="Active">Active</option>
-				<option value="Cleared">Cleared</option>
-			</select>
-			
-			Entered into sitesDB:
-			<select name="sitesDB" id="sitesDB">
-				<option value="No">No</option>
-				<option value="Yes">Yes</option>
-			</select>
-			<br><br>
-			
-			Description of fault:<br>
-			<textarea rows="4" cols="50" id="description" name="description"></textarea>
-			<br><br>
-			
-			Entered by:
-			<input type="text" name="reported_by" id="reported_by">
-						
-			Assigned to:
-			<input type="text" name="assigned_to" id="assigned_to" required>
-			<br><br>
-			
-			Expected RTS:
-			<input type="date" name="RTS" id="RTS">
-						
-			Delay Reason:
-			<input type="text" name="delay" id="delay">
-			<br><br>
-			
-			<div style="float:right">
-			<input type="checkbox" name="show_cleared" value="yes"> Show Cleared Faults
-			</div>
-			<br>
+			?>
+                        </table>
 
 			<div class="w3-container w3-margin w3-text-orange">
-			<button class="btn" type="submit"><i class="fa fa-cogs"></i> Get Faults</button>
+			<button class="btn" type="submit"><i class="fa fa-cogs"></i> Submit form</button>
 			</div>
 		</form>	
 	</div><br>

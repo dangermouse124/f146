@@ -78,7 +78,7 @@ background-color: Lightgrey;
 			<table id="f146_table" class="w3-table">
 			<tr>
 			  <th>Material</th>
-			  <th>Previous month</th>
+			  <th>Available previous month</th>
 			  <th>Received</th>
 			  <th>Consumed</th>
 			  <th>Comment</th>
@@ -91,14 +91,14 @@ background-color: Lightgrey;
                         while ($row = mysqli_fetch_array($result,MYSQLI_ASSOC)) {
 				$cnt += 1;
                                 echo "<tr>";
-				echo "<td><input type='number' name='mat_num" . $cnt . "' id='mat_num' value='" . $row['mat_num'] . "'>" . $row['description'] . "</td>";
-				echo "<td><input type='number' name='previous" . $cnt . "' id='previous' value=0></td>";
-				echo "<td><input type='number' name='rx" . $cnt . "' id='rx' value=0></td>";
-				echo "<td><input type='number' name='used" . $cnt . "' id='used' value=0></td>";
+				echo "<td><input type='number' name='mat_num" . $cnt . "' id='mat_num". $cnt ."' value='" . $row['mat_num'] . "'>" . $row['description'] . "</td>";
+				echo "<td><input type='number' name='previous" . $cnt . "' id='previous". $cnt ."' value=0></td>";
+				echo "<td><input type='number' name='rx" . $cnt . "' id='rx". $cnt ."' value=0></td>";
+				echo "<td><input type='number' name='used" . $cnt . "' id='used". $cnt ."' value=0><span id='left" . $cnt . "'></span></td>";
 				echo "<td><input type='text' name='comment" . $cnt . "' id='comment'></td>";
 				echo "</tr>";
 			}
-                        echo "<input type='hidden' name='rowcount' value=" . $cnt . ">";
+                        echo "<input type='hidden' name='rowcount' id='rowcount' value=" . $cnt . ">";
 			mysqli_free_result($result);                        
 			mysqli_close($conn);
 			?>

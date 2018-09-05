@@ -42,6 +42,7 @@ and open the template in the editor.
         if (!$success) {
             $error_message = $conn->error;
             echo $error_message;
+            include('error_page.html');
             exit();
         }
         $statement->close();        
@@ -68,7 +69,7 @@ and open the template in the editor.
             }
             $statement->close();
         }
-        echo "Success!";
+        include('success_page.html');
         mysqli_close($conn);
         ?>
   

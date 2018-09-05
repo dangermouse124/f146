@@ -11,56 +11,64 @@ and open the template in the editor.
     </head>
     <body>
         <?php
- 
-        require_once('f146Login.php');
+        require_once('piLogin.php');
+        $db = "f146";
 
-        // Create connection
         $conn = mysqli_connect($host, $user, $pass, $db);
-        // Check connection
         if (!$conn) {
             die("Connection failed: " . mysqli_connect_error());
         }
         //echo "Connected!<br>";
 
 
-        if (!isset($_POST['site_name'])) {
-                echo "Invalid site number";
+        if (!isset($_POST['rowcount'])) {
+                echo "No rows!";
                 include('error_page.html');
                 exit();
         }
-
-        $rowcount = $_POST['rowcount'];
-        //echo $rowcount . "<br>";
-        $names = 'INSERT INTO stock (site_name, mat_num, previous, rx, used, month, comment) ';
-        $month = mysqli_real_escape_string($conn, $_POST['month']);
-        $site_name = mysqli_real_escape_string($conn, $_POST['site_name']);
         
-        while ($rowcount > 0) {
-            $mat_num = mysqli_real_escape_string($conn, $_POST['mat_num' . $rowcount]); 
-            $previous = mysqli_real_escape_string($conn, $_POST['previous' . $rowcount]);
-            $rx = mysqli_real_escape_string($conn, $_POST['rx' . $rowcount]);
-            $used = mysqli_real_escape_string($conn, $_POST['used' . $rowcount]);
-            $comment = mysqli_real_escape_string($conn, $_POST['comment' . $rowcount]);
-            $values = "VALUES ('" . $site_name . "', '" . $mat_num . "', '" . $previous . "', '" . $rx . "', '" . $used . "', '" . $month . "', '" . $comment . "')";
-            $sql = $names . $values;
-            $rowcount -= 1;
-            //echo $sql . "<br>";
-            
-        if (mysqli_query($conn, $sql)) {
-               //echo "Successful DB entry!";
-                //include('success_page.html');
-                //exit();
-            } else {
-            $returnMsg["message"] = "Error: " . $sql . "<br>" . mysqli_error($conn);
-            $jsonMsg = json_encode($returnMsg);
-            echo $jsonMsg;
-            include('error_page.html');
+        $year = date("Y");
+        $site_num = $_POST['site_num'];
+        $month = $_POST['month'];
+        $form_id = $site_num . $month . $year;
+        
+        $sql = "INSERT INTO forms 
+                    (form_id, site_num, month, year)
+                   VALUES
+                    (?,?,?,?)";
+        $statement = $conn->prepare($sql);
+        $statement->bind_param("sisi", $form_id, $site_num, $month, $year);
+        $success = $statement->execute();
+        if (!$success) {
+            $error_message = $conn->error;
+            echo $error_message;
             exit();
-            }
         }
-        include('success_page.html');
+        $statement->close();        
+        
+        for ($cnt = 1; $cnt <= $_POST['rowcount']; $cnt++) {
 
+            $mat_num = $_POST['mat_num' . $cnt];
+            $previous = $_POST['previous' . $cnt];
+            $rx = $_POST['rx' . $cnt];
+            $used = $_POST['used' . $cnt];
+            $comment = $_POST['comment' . $cnt];                
 
+            $sql = "INSERT INTO order_lines 
+                    (form_id, mat_num, previous, rx, used, comment)
+                   VALUES
+                    (?,?,?,?,?,?)";
+            $statement = $conn->prepare($sql);
+            $statement->bind_param("siiiis", $form_id, $mat_num, $previous, $rx, $used, $comment);
+            $success = $statement->execute();
+            if (!$success) {
+                $error_message = $conn->error;
+                echo $error_message;
+                exit();
+            }
+            $statement->close();
+        }
+        echo "Success!";
         mysqli_close($conn);
         ?>
   

@@ -56,18 +56,19 @@ background-color: Lightgrey;
 			
                         
 			<?php
-			require('f146Login.php');
+			require('piLogin.php');
+                        $db = "f146";
 			$conn = mysqli_connect($host, $user, $pass, $db);
 			if (!$conn) {
 				die("Connection failed: " . mysqli_connect_error());
 			}
-			$sql = "SELECT site_name FROM sites";
+			$sql = "SELECT * FROM sites";
 			$result = mysqli_query($conn, $sql);
                         
                         echo "Site:";
-			echo "<select id='site_name' name='site_name'>";
+			echo "<select id='site_num' name='site_num'>";
 			while ($row = mysqli_fetch_array($result,MYSQLI_ASSOC)) {
-				echo "<option value='" . $row['site_name'] . "'>" . $row['site_name'] . "</option>";
+				echo "<option value='" . $row['site_num'] . "'>" . $row['site_name'] . "</option>";
 			}
 			echo "</select><br><br> ";
                         mysqli_free_result($result);    

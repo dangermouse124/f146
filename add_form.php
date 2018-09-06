@@ -25,7 +25,7 @@ body {
 }
 
 </style>
-<title>F146</title>
+<title>Select</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -37,81 +37,54 @@ body {
  <!-- topbar -->
 
 <div class="w3-container"> 
-	<div class="w3-card-4 w3-dark-grey w3-padding">
-	<h2><font color="black">F146</font></h2>
-        <form id="f146_entry" action="submit_month.php" method="POST">
-			<br>
-                        Period ending:
-                        <select name="month" id="month">
-				<option value="January">January</option>
-				<option value="February">February</option>
-				<option value="March">March</option>
-				<option value="April">April</option>
-				<option value="May">May</option>
-				<option value="June">June</option>
-				<option value="July">July</option>
-				<option value="August">August</option>
-				<option value="September">September</option>
-				<option value="October">October</option>
-				<option value="November">November</option>
-				<option value="December">December</option>
-			</select>
-			
-                        
-			<?php
-			require('piLogin.php');
-                        $db = "f146";
-			$conn = mysqli_connect($host, $user, $pass, $db);
-			if (!$conn) {
-				die("Connection failed: " . mysqli_connect_error());
-			}
-			$sql = "SELECT * FROM sites";
-			$result = mysqli_query($conn, $sql);
-                        
-                        echo "Site:";
-			echo "<select id='site_num' name='site_num'>";
-			while ($row = mysqli_fetch_array($result,MYSQLI_ASSOC)) {
-				echo "<option value='" . $row['site_num'] . "'>" . $row['site_name'] . "</option>";
-			}
-			echo "</select><br><br> ";
-                        mysqli_free_result($result);    
+    <div class="w3-card-4 w3-dark-grey w3-padding">
+        <h2><font color="black">Select site and month</font></h2>
 
-			?>                        
-                        
-			<table id="f146_table" class="w3-table">
-			<tr>
-			  <th>Material</th>
-			  <th>Available previous month</th>
-			  <th>Received</th>
-			  <th>Consumed</th>
-			  <th>Comment</th>
-			</tr>
-                        
-                        <?php
-                        $sql = "SELECT material.mat_num, material.description FROM site_items INNER JOIN material ON material.mat_num=site_items.mat_num WHERE site_num=12038";
-			$result = mysqli_query($conn, $sql);
-                        $cnt = 0;
-                        while ($row = mysqli_fetch_array($result,MYSQLI_ASSOC)) {
-				$cnt += 1;
-                                echo "<tr>";
-				echo "<td><input type='number' name='mat_num" . $cnt . "' id='mat_num". $cnt ."' value='" . $row['mat_num'] . "'>" . $row['description'] . "</td>";
-				echo "<td><input type='number' name='previous" . $cnt . "' id='previous". $cnt ."' value=0></td>";
-				echo "<td><input type='number' name='rx" . $cnt . "' id='rx". $cnt ."' value=0></td>";
-				echo "<td><input type='number' name='used" . $cnt . "' id='used". $cnt ."' value=0><span id='left" . $cnt . "'></span></td>";
-				echo "<td><input type='text' name='comment" . $cnt . "' id='comment'></td>";
-				echo "</tr>";
-			}
-                        echo "<input type='hidden' name='rowcount' id='rowcount' value=" . $cnt . ">";
-			mysqli_free_result($result);                        
-			mysqli_close($conn);
-			?>
-                        </table>
+        <form id="f146_entry" action="add.php" method="POST">
+            <br>
+            Period ending:
+            <select name="month" id="month">
+                    <option value="January">January</option>
+                    <option value="February">February</option>
+                    <option value="March">March</option>
+                    <option value="April">April</option>
+                    <option value="May">May</option>
+                    <option value="June">June</option>
+                    <option value="July">July</option>
+                    <option value="August">August</option>
+                    <option value="September">September</option>
+                    <option value="October">October</option>
+                    <option value="November">November</option>
+                    <option value="December">December</option>
+            </select>
 
-			<div class="w3-container w3-margin w3-text-orange">
-			<button class="btn" type="submit"><i class="fa fa-cogs"></i> Submit form</button>
-			</div>
-		</form>	
-	</div><br>
+
+            <?php
+            require('piLogin.php');
+            $db = "f146";
+            $conn = mysqli_connect($host, $user, $pass, $db);
+            if (!$conn) {
+                    die("Connection failed: " . mysqli_connect_error());
+            }
+            $sql = "SELECT * FROM sites";
+            $result = mysqli_query($conn, $sql);
+
+            echo "Site:";
+            echo "<select id='site_num' name='site_num'>";
+            while ($row = mysqli_fetch_array($result,MYSQLI_ASSOC)) {
+                    echo "<option value='" . $row['site_num'] . "'>" . $row['site_name'] . "</option>";
+            }
+            echo "</select><br><br> ";
+            
+            mysqli_free_result($result);                        
+            mysqli_close($conn);
+            ?>
+            
+            <div class="w3-container w3-margin w3-text-orange">
+            <button class="btn" type="submit"><i class="fa fa-cogs"></i> Submit form</button>
+            </div>
+        </form>	
+    </div><br>
 </div>
 	
   </body>

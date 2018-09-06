@@ -45,52 +45,52 @@ background-color: Lightgrey;
 <script type="text/javascript">
 </script>
 </head>
-    <body>
-    <div class="w3-row">
-        <div class="w3-container w3-third"></div>
-        <div class="w3-container w3-third"><br>
-            <div class="w3-card-4 w3-light-grey w3-padding">
-                <h2><font color="black">Order Details</font></h2>                    
-                <table id="forms_table" class="w3-table" style="width:100%">
-                <tr>
-                  <th>Material number</th>
-                  <th>On hand previous month</th>
-                  <th>Received</th>
-                  <th>Consumed</th>
-                  <th>Date</th>              
-                </tr>
+<body>
+   <div class="w3-container w3-margin"><br>
+        <div class="w3-card-4 w3-light-grey w3-padding">
+            <h2><font color="black">Order Details</font></h2>                    
+            <table id="forms_table" class="w3-table">
+            <tr>
+              <th>Material number</th>
+              <th>Description</th>
+              <th>On hand previous month</th>
+              <th>Received</th>
+              <th>Consumed</th>
+              <th>Date</th>              
+            </tr>
 
-                <?php
-                require('piLogin.php');
-                $db = "f146";
-                $conn = mysqli_connect($host, $user, $pass, $db);
-                if (!$conn) {
-                        die("Connection failed: " . mysqli_connect_error());
-                }
+            <?php
+            require('piLogin.php');
+            $db = "f146";
+            $conn = mysqli_connect($host, $user, $pass, $db);
+            if (!$conn) {
+                    die("Connection failed: " . mysqli_connect_error());
+            }
 
-                $form_id = $_GET['form_id'];
+            $form_id = $_GET['form_id'];
 
-                $sql = "SELECT * FROM order_lines WHERE form_id='" . $form_id ."'";
-                //echo $sql;
+            $sql = "SELECT order_lines.mat_num, material.description, order_lines.previous, order_lines.used, order_lines.rx, order_lines.date FROM order_lines INNER JOIN material ON material.mat_num=order_lines.mat_num WHERE form_id='" . $form_id ."'";
+            //echo $sql;
 
-                $result = mysqli_query($conn, $sql);
+            $result = mysqli_query($conn, $sql);
 
-                while ($row = mysqli_fetch_array($result,MYSQLI_ASSOC)) {
-                        echo "<tr>";
-                        echo "<td>" . $row['mat_num'] . "</td>";
-                        echo "<td width='20%'>" . $row['previous'] . "</td>";
-                        echo "<td>" . $row['rx'] . "</td>";
-                        echo "<td>" . $row['used'] . "</td>";
-                        echo "<td>" . $row['date'] . "</td>";
-                        echo "</tr>";
-                } 
-                echo "</table>";
+            while ($row = mysqli_fetch_array($result,MYSQLI_ASSOC)) {
+                    echo "<tr>";
+                    echo "<td>" . $row['mat_num'] . "</td>";
+                    echo "<td>" . $row['description'] . "</td>";
+                    echo "<td width='20%'>" . $row['previous'] . "</td>";
+                    echo "<td>" . $row['rx'] . "</td>";
+                    echo "<td>" . $row['used'] . "</td>";
+                    echo "<td>" . $row['date'] . "</td>";
+                    echo "</tr>";
+            } 
+            echo "</table>";
 
-                mysqli_free_result($result);
-                mysqli_close($conn);
-                ?>
-            </div>
+            mysqli_free_result($result);
+            mysqli_close($conn);
+            ?>
         </div>
+
     </div>
-    </body>
+</body>
 </html>

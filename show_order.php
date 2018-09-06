@@ -29,7 +29,7 @@ and open the template in the editor.
 
           </style>
         <meta charset="UTF-8">
-        <title>Site form for the year</title>
+        <title>Show Order</title>
         <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <link rel="stylesheet" href="include.css">
@@ -39,11 +39,14 @@ and open the template in the editor.
     <body>
     <div class="w3-container"><br>
 	<div class="w3-card-4 w3-light-grey w3-padding w3-third">
-            <h2><font color="black">Forms for the Year</font></h2>                    
+            <h2><font color="black">Order Details</font></h2>                    
             <table id="forms_table" class="w3-table" style="width:100%">
             <tr>
-              <th>Month</th>
-              <th>Form id</th>
+              <th>Material number</th>
+              <th>On hand previous month</th>
+              <th>Received</th>
+              <th>Consumed</th>
+              <th>Date</th>              
             </tr>
 
             <?php
@@ -54,36 +57,24 @@ and open the template in the editor.
                     die("Connection failed: " . mysqli_connect_error());
             }
 
-            $year = $_POST['year'];
-            $site_num = $_POST['site_num'];
+            $form_id = $_GET['form_id'];
 
-            $sql = "SELECT month, form_id FROM forms WHERE site_num='" . $site_num ."' AND year='" . $year . "' ORDER BY month";
+            $sql = "SELECT * FROM order_lines WHERE form_id='" . $form_id ."'";
             //echo $sql;
 
             $result = mysqli_query($conn, $sql);
 
             while ($row = mysqli_fetch_array($result,MYSQLI_ASSOC)) {
                     echo "<tr>";
-                    echo "<td><a href='show_order.php?form_id=" . $row['form_id'] . "' target='_parent'>" . $row['month'] . "</a></td>";
-                    echo "<td>" . $row['form_id'] . "</td>";
+                    echo "<td>" . $row['mat_num'] . "</td>";
+                    echo "<td width='20%'>" . $row['previous'] . "</td>";
+                    echo "<td>" . $row['rx'] . "</td>";
+                    echo "<td>" . $row['used'] . "</td>";
+                    echo "<td>" . $row['date'] . "</td>";
                     echo "</tr>";
             } 
             echo "</table>";
-            /*
 
-            $sql = "SELECT * FROM order_lines WHERE form_id='" . $form_id ."'";
-            //echo $sql;
-            $result = mysqli_query($conn, $sql);
-
-            echo "<br>Form:<br>";
-            while ($row = mysqli_fetch_array($result,MYSQLI_ASSOC)) {
-                    foreach ($row as $key => $value) {
-                        echo $key . ":" . $value . " | ";
-                    }
-                    echo "<br>";
-            }
-             * 
-             */
             mysqli_free_result($result);
             mysqli_close($conn);
             ?>

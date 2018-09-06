@@ -6,6 +6,9 @@ text-align: center;
 background-color: Lightgrey;
 }
 
+body {
+    color:white;
+}
 .btn {
     background-color: black;
     border: none;

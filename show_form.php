@@ -48,31 +48,35 @@ and open the template in the editor.
             if (!$conn) {
                     die("Connection failed: " . mysqli_connect_error());
             }
-            $sql = "SELECT sites.site_name, sites.site_num, forms.year, forms.month FROM forms INNER JOIN sites ON sites.site_num=forms.site_num";
+            $sql = "SELECT sites.site_name, sites.site_num, forms.year FROM forms INNER JOIN sites ON sites.site_num=forms.site_num";
             $result = mysqli_query($conn, $sql);
-
+            $list = array();
+            
+            while ($row = mysqli_fetch_array($result,MYSQLI_ASSOC)) {
+                //if (!array_key_exists($row['site_name'], $list)) {
+                    $list[$row['site_name']] = $row['site_num'];
+                }
             echo "<br>Site:";
             echo "<select id='site_num' name='site_num'>";
-            while ($row = mysqli_fetch_array($result,MYSQLI_ASSOC)) {
-                    echo "<option value='" . $row['site_num'] . "'>" . $row['site_name'] . "</option>";
+            foreach($list as $key => $value) {
+                echo "<option value='" . $value . "'>" . $key . "</option>";
+                //echo "<option value='" . $row['site_num'] . "'>" . $row['site_name'] . "</option>";
             }
             echo "</select> ";
             
             mysqli_data_seek($result,0);
-            
-            echo "Month:";
-            echo "<select id='month' name='month'>";
+            $list = array();
+
             while ($row = mysqli_fetch_array($result,MYSQLI_ASSOC)) {
-                    echo "<option value='" . $row['month'] . "'>" . $row['month'] . "</option>";
+                if (!in_array($row['year'], $list)) {
+                    $list[] = $row['year'];
+                }
             }
-            echo "</select> ";
-            
-            mysqli_data_seek($result,0);
             
             echo "Year:";
             echo "<select id='year' name='year'>";
-            while ($row = mysqli_fetch_array($result,MYSQLI_ASSOC)) {
-                    echo "<option value='" . $row['year'] . "'>" . $row['year'] . "</option>";
+            for ($x = 0; $x < count($list); $x++) {
+                    echo "<option value='" . $list[$x] . "'>" . $list[$x] . "</option>";
             }
             echo "</select><br><br>";
             

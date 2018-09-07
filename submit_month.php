@@ -48,14 +48,15 @@ for ($cnt = 1; $cnt <= $_POST['rowcount']; $cnt++) {
     $previous = $_POST['previous' . $cnt];
     $rx = $_POST['rx' . $cnt];
     $used = $_POST['used' . $cnt];
+    $bad = $_POST['bad' . $cnt];
     $comment = $_POST['comment' . $cnt]; 
 
     $sql = "INSERT INTO order_lines 
-            (form_id, mat_num, previous, rx, used, comment)
+            (form_id, mat_num, previous, rx, used, bad, comment)
            VALUES
-            (?,?,?,?,?,?)";
+            (?,?,?,?,?,?,?)";
     $statement = $conn->prepare($sql);
-    $statement->bind_param("siiiis", $form_id, $mat_num, $previous, $rx, $used, $comment);
+    $statement->bind_param("siiiiis", $form_id, $mat_num, $previous, $rx, $used, $bad, $comment);
     $success = $statement->execute();
     if (!$success) {
         $error_message = $conn->error;

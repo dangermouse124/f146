@@ -66,14 +66,14 @@ background-color: Lightgrey;
             $year = $_POST['year'];
             $site_num = $_POST['site_num'];
 
-            $sql = "SELECT month, form_id FROM forms WHERE site_num='" . $site_num ."' AND year='" . $year . "' ORDER BY month";
+            $sql = "SELECT month, form_id, date FROM forms WHERE site_num='" . $site_num ."' AND year='" . $year . "' ORDER BY date";
             //echo $sql;
 
             $result = mysqli_query($conn, $sql);
 
             while ($row = mysqli_fetch_array($result,MYSQLI_ASSOC)) {
                     echo "<tr>";
-                    echo "<td><a href='show_order.php?form_id=" . $row['form_id'] . "' target='order_frame'>" . $row['month'] . "</a></td>";
+                    echo "<td><a href='show_order.php?form_id=" . $row['form_id'] . "&site_num=" . $site_num . "&month=" . $row['month'] . "' target='order_frame'>" . $row['month'] . "</a></td>";
                     //echo "<td>" . $row['form_id'] . "</td>";
                     echo "</tr>";
             } 

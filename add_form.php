@@ -68,11 +68,11 @@ body {
             }
             $sql = "SELECT * FROM sites";
             $result = mysqli_query($conn, $sql);
-
+                        
             echo "Site:";
-            echo "<select id='site_num' name='site_num' onchange='get_name()'>";
+            echo "<select id='site_num' name='site_num'>";
             while ($row = mysqli_fetch_array($result,MYSQLI_ASSOC)) {
-                    echo "<option value='" . $row['site_num'] . "'>" . $row['site_name'] . "</option>";
+                echo "<option value='" . $row['site_num'] . "'>" . $row['site_name'] . "</option>";
             }
             echo "</select><br><br> ";
             

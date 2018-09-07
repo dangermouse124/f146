@@ -24,7 +24,24 @@ and open the template in the editor.
     <div class="w3-container"><br> 
     <div class="w3-card-4 w3-dark-grey w3-padding">
     <h2><font color="black">Add form</font></h2>
-    <?php echo "<h3><font color='orange'>" . $_POST['month'] . " Site:" . $_POST['site_num'] . "</font></h3>";?>
+    <?php
+    require_once('piLogin.php');
+    $db = "f146";
+    $conn = mysqli_connect($host, $user, $pass, $db);
+    if (!$conn) {
+            die("Connection failed: " . mysqli_connect_error());
+    }
+    
+    $month = $_POST['month'];
+    $site_num = $_POST['site_num'];
+    $sql = "SELECT site_name FROM sites WHERE site_num=" . $site_num;
+    $result = mysqli_query($conn, $sql);
+    $row = mysqli_fetch_array($result,MYSQLI_ASSOC);
+    
+    echo "<h3><font color='orange'>" . $row['site_name'] . " for " . $month . "</font></h3>";
+    mysqli_free_result($result);
+    ?>
+    
     <form id="f146_entry" action="submit_month.php" method="POST">
      
         <table id="f146_table" class="w3-table">
@@ -40,16 +57,8 @@ and open the template in the editor.
         </tr>
 
         <?php
-        require('piLogin.php');
-        $db = "f146";
-        $conn = mysqli_connect($host, $user, $pass, $db);
-        if (!$conn) {
-                die("Connection failed: " . mysqli_connect_error());
-        }
 
-        $site_num = $_POST['site_num'];
-        $month = $_POST['month'];
-
+        
         $sql = "SELECT material.mat_num, material.description FROM site_items INNER JOIN material ON material.mat_num=site_items.mat_num WHERE site_num=" . $site_num;
         $result = mysqli_query($conn, $sql);
         $cnt = 0;

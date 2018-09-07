@@ -46,9 +46,10 @@ background-color: Lightgrey;
 </script>
 </head>
 <body>
-   <div class="w3-container w3-margin"><br>
+   <div class="w3-container w3-margin">
         <div class="w3-card-4 w3-light-grey w3-padding">
-            <h2><font color="black">Order Details</font></h2>                    
+            <h2><font color="black">Form Details</font></h2>  
+            <?php echo "<h3><font color='orange'>" . $_GET['form_id'] . "</font></h3>"; ?>
             <table id="forms_table" class="w3-table">
             <tr>
               <th>Material number</th>
@@ -56,7 +57,7 @@ background-color: Lightgrey;
               <th>On hand previous month</th>
               <th>Received</th>
               <th>Consumed</th>
-              <th>Date</th>              
+              <th>Comment</th>              
             </tr>
 
             <?php
@@ -69,7 +70,7 @@ background-color: Lightgrey;
 
             $form_id = $_GET['form_id'];
 
-            $sql = "SELECT order_lines.mat_num, material.description, order_lines.previous, order_lines.used, order_lines.rx, order_lines.date FROM order_lines INNER JOIN material ON material.mat_num=order_lines.mat_num WHERE form_id='" . $form_id ."'";
+            $sql = "SELECT order_lines.mat_num, material.description, order_lines.previous, order_lines.used, order_lines.rx, order_lines.comment FROM order_lines INNER JOIN material ON material.mat_num=order_lines.mat_num WHERE form_id='" . $form_id ."'";
             //echo $sql;
 
             $result = mysqli_query($conn, $sql);
@@ -81,7 +82,7 @@ background-color: Lightgrey;
                     echo "<td width='20%'>" . $row['previous'] . "</td>";
                     echo "<td>" . $row['rx'] . "</td>";
                     echo "<td>" . $row['used'] . "</td>";
-                    echo "<td>" . $row['date'] . "</td>";
+                    echo "<td>" . $row['comment'] . "</td>";
                     echo "</tr>";
             } 
             echo "</table>";
@@ -89,6 +90,7 @@ background-color: Lightgrey;
             mysqli_free_result($result);
             mysqli_close($conn);
             ?>
+            <br><br>
         </div>
 
     </div>

@@ -40,7 +40,7 @@ and open the template in the editor.
 <div class="w3-container"> 
     <div class="w3-card-4 w3-dark-grey w3-padding">
     <h2><font color="black">Show forms</font></h2>
-        <form id="show_forms" action="show.php" method="POST">
+        <form id="show_forms" action="show.php" target="forms_frame" method="POST">
             <?php
             require('piLogin.php');
             $db = "f146";
@@ -88,6 +88,9 @@ and open the template in the editor.
             <div class="w3-container w3-margin w3-text-orange">
                 <button class="btn" type="submit"><i class="fa fa-cogs"></i> Show forms</button>
             </div>
-        </form>    
+        </form>
+    <br>
+    <iframe name="forms_frame" id="forms_frame" height="1000px" width="30%"></iframe>
+    <iframe name="order_frame" id="order_frame" height="1000px" width="70%" style="float:right"></iframe>
     </body>
 </html>

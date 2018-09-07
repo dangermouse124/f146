@@ -54,9 +54,11 @@ background-color: Lightgrey;
             <tr>
               <th>Material number</th>
               <th>Description</th>
-              <th>On hand previous month</th>
-              <th>Received</th>
-              <th>Consumed</th>
+              <th>Last<br>Month</th>
+              <th>Rx</th>
+              <th>Used</th>
+              <th>U/S</th>
+              <th>Available</th>
               <th>Comment</th>              
             </tr>
 
@@ -79,8 +81,10 @@ background-color: Lightgrey;
                     echo "<tr>";
                     echo "<td>" . $row['mat_num'] . "</td>";
                     echo "<td>" . $row['description'] . "</td>";
-                    echo "<td width='20%'>" . $row['previous'] . "</td>";
+                    echo "<td>" . $row['previous'] . "</td>";
                     echo "<td>" . $row['rx'] . "</td>";
+                    echo "<td>" . $row['used'] . "</td>";
+                    echo "<td>" . $row['used'] . "</td>";
                     echo "<td>" . $row['used'] . "</td>";
                     echo "<td>" . $row['comment'] . "</td>";
                     echo "</tr>";

@@ -48,11 +48,11 @@ background-color: Lightgrey;
     <body>
     <div class="w3-container w3-margin">
         <div class="w3-card-4 w3-light-grey w3-padding">
-            <h2><font color="black">Available Forms</font></h2>                    
+            <h2><font color="black">Forms</font></h2>                    
             <table id="forms_table" class="w3-table" style="width:100%">
             <tr>
               <th>Month</th>
-              <th>Form id</th>
+              <!--<th>Form id</th>-->
             </tr>
 
             <?php
@@ -74,7 +74,7 @@ background-color: Lightgrey;
             while ($row = mysqli_fetch_array($result,MYSQLI_ASSOC)) {
                     echo "<tr>";
                     echo "<td><a href='show_order.php?form_id=" . $row['form_id'] . "' target='order_frame'>" . $row['month'] . "</a></td>";
-                    echo "<td>" . $row['form_id'] . "</td>";
+                    //echo "<td>" . $row['form_id'] . "</td>";
                     echo "</tr>";
             } 
             echo "</table>";

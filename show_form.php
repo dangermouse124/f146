@@ -90,7 +90,7 @@ and open the template in the editor.
             </div>
         </form>
     <br>
-    <iframe name="forms_frame" id="forms_frame" height="1000px" width="30%"></iframe>
-    <iframe name="order_frame" id="order_frame" height="1000px" width="70%" style="float:right"></iframe>
+    <iframe name="forms_frame" id="forms_frame" height="1000px" width="20%"></iframe>
+    <iframe name="order_frame" id="order_frame" height="1000px" width="80%" style="float:right"></iframe>
     </body>
 </html>

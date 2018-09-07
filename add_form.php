@@ -36,11 +36,11 @@ body {
 <body>
  <!-- topbar -->
 
-<div class="w3-container"> 
+ <div class="w3-container"><br> 
     <div class="w3-card-4 w3-dark-grey w3-padding">
         <h2><font color="black">Select site and month</font></h2>
 
-        <form id="f146_entry" action="add.php" method="POST">
+        <form id="f146_entry" action="add.php" method="POST" target="add_frame">
             <br>
             Period ending:
             <select name="month" id="month">
@@ -70,7 +70,7 @@ body {
             $result = mysqli_query($conn, $sql);
 
             echo "Site:";
-            echo "<select id='site_num' name='site_num'>";
+            echo "<select id='site_num' name='site_num' onchange='get_name()'>";
             while ($row = mysqli_fetch_array($result,MYSQLI_ASSOC)) {
                     echo "<option value='" . $row['site_num'] . "'>" . $row['site_name'] . "</option>";
             }
@@ -79,13 +79,15 @@ body {
             mysqli_free_result($result);                        
             mysqli_close($conn);
             ?>
-            
+                        
             <div class="w3-container w3-margin w3-text-orange">
-            <button class="btn" type="submit"><i class="fa fa-cogs"></i> Submit form</button>
+            <button class="btn" type="submit"><i class="fa fa-cogs"></i> Generate</button>
             </div>
         </form>	
     </div><br>
 </div>
+
+<iframe name="add_frame" id="forms_frame" height="1000px" width="100%"></iframe>
 	
   </body>
 </html>

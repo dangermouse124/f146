@@ -69,7 +69,7 @@ and open the template in the editor.
 
                 <?php
 
-                $sql = "SELECT * FROM material";
+                $sql = "SELECT * FROM material WHERE mat_num NOT IN (SELECT mat_num FROM site_items WHERE site_num=" . $site_num . ")";
                 $result = mysqli_query($conn, $sql);
 
                 echo "Materials:";

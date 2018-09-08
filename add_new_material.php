@@ -44,7 +44,7 @@ and open the template in the editor.
         <div class="w3-card-4 w3-dark-grey w3-padding">
         <h2><font color="black">Enter a new material</font></h2>
 
-        <form id="new_mat" action="add_mat.php" method="POST">
+        <form id="new_mat" action="add_mat.php" method="POST" target="new_mat_frame">
             <br>
             Material Number:
             <input type="number" id="mat_num" name="mat_num" style='width: 6em' required>
@@ -59,5 +59,7 @@ and open the template in the editor.
         </form>	
         </div><br>
     </div>
+
+<iframe name="new_mat_frame" id="new_mat_frame" height="1000px" width="100%"></iframe>
 </body>
 </html>

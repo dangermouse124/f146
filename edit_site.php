@@ -42,6 +42,7 @@ and open the template in the editor.
             <tr>
               <th>Material</th>
               <th>Description</th>
+              <th>Remove</th>
             </tr>
 
             <?php
@@ -55,11 +56,9 @@ and open the template in the editor.
                     echo "<tr>";
                     echo "<td>" . $row['mat_num'] . "</td>";
                     echo "<td>" . $row['description'] . "</td>";
+                    echo "<td class='w3-red'><a href='remove_item.php?mat_num=" . $row['mat_num'] . "&site_num=" . $site_num . "'>DELETE</a>";
                     echo "</tr>";
             }
-            //echo "<input type='hidden' name='rowcount' id='rowcount' value=" . $cnt . ">";
-            //echo "<input type='hidden' name='month' id='month' value=" . $month . ">";
-            //echo "<input type='hidden' name='site_num' id='site_num' value=" . $site_num . ">";
 
             mysqli_free_result($result);                        
             ?>

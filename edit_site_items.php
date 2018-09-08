@@ -17,6 +17,29 @@ and open the template in the editor.
     </script>
 </head>
 <body>
+ <!-- topbar -->
+<div class="navbar">
+	<a href="index.html" title="Home" class="w3-blue">
+	<i class="fa fa-home"> Home</i></a>
+        <a href="add_form.php" title="add_form">
+	<i class="fa fa-plus"> Add a Form</i></a>
+        <a href="show_form.php" title="show_form">
+	<i class="fa fa-ambulance"> View a Form</i></a>
+  <div class="dropdown">
+    <button class="dropbtn">Items 
+      <i class="fa fa-caret-down"></i>
+    </button>
+    <div class="dropdown-content">
+        <a href="add_new_material.php" title="Add a material">
+	<i class="fa fa-plus"> Add new material</i></a>
+        <a href="edit_site_items.php" title="Edit_site_items">
+	<i class="fa fa-magic"> Edit items for site</i></a>
+    </div>
+  </div>
+	<a href="instructions.html" title="Instructions">
+	<i class="fa fa-question-circle"> Instructions</i></a>
+</div><br>
+    
  <div class="w3-container"><br> 
     <div class="w3-card-4 w3-dark-grey w3-padding">
         <h2><font color="black">Add item to site</font></h2>
